@@ -12,9 +12,15 @@ import kotlinx.android.synthetic.main.item_number.view.*
 class NumberAdapter(val items : ArrayList<Number>, val context: Context) : RecyclerView.Adapter<ViewHolder>() {
 
     override fun getItemCount(): Int { return items.size }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_number, parent, false))
+        val layoutInflater = LayoutInflater.from(context).inflate(R.layout.item_number, parent, false)
+        layoutInflater.layoutDirection = when (getItemViewType(viewType)) {
+            1 -> View.LAYOUT_DIRECTION_LTR
+            else -> View.LAYOUT_DIRECTION_RTL
+        }
+
+        val viewholder = ViewHolder(layoutInflater)
+        return viewholder
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -22,9 +28,14 @@ class NumberAdapter(val items : ArrayList<Number>, val context: Context) : Recyc
         holder.tvText?.text = items[position].text
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return if (position % 2 == 0) 1 else 0
+    }
+
 }
 
 class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
+    val clContainer = view.cl_container!!
     val tvNumber = view.tv_number!!
     val tvText = view.tv_text!!
 }
