@@ -9,7 +9,7 @@ import com.coen.mad_w5_number_trivia.R
 import com.coen.mad_w5_number_trivia.model.Number
 import kotlinx.android.synthetic.main.item_number.view.*
 
-class NumberAdapter(val items : ArrayList<Number>, val context: Context) : RecyclerView.Adapter<ViewHolder>() {
+class NumberAdapter(var items : ArrayList<Number>, val context: Context) : RecyclerView.Adapter<ViewHolder>() {
 
     override fun getItemCount(): Int { return items.size }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -24,7 +24,7 @@ class NumberAdapter(val items : ArrayList<Number>, val context: Context) : Recyc
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.tvNumber?.text = items[position].num.toString()
+        holder.tvNumber?.text = items[position].number.toString()
         holder.tvText?.text = items[position].text
     }
 
@@ -32,6 +32,10 @@ class NumberAdapter(val items : ArrayList<Number>, val context: Context) : Recyc
         return if (position % 2 == 0) 1 else 0
     }
 
+    fun updateList(items : ArrayList<Number>) {
+        this.items = items
+        notifyDataSetChanged()
+    }
 }
 
 class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
